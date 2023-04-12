@@ -27,6 +27,7 @@ build:
       - postgresql-datasource
       - ejb
       - web-clustering
+      - microprofile-reactive-messaging
     version: latest
   contextDir: backend
   uri: 'https://github.com/deewhyweb/first-responder-demo.git'
