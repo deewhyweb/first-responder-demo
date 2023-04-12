@@ -1,0 +1,58 @@
+image:
+  tag: latest
+build:
+  enabled: true
+  mode: s2i
+  output:
+    kind: ImageStreamTag
+  env:
+    - name: POSTGRESQL_DRIVER_VERSION
+      value: 42.6.0
+    - name: CUSTOM_INSTALL_DIRECTORIES
+      value: extensions
+  s2i:
+    arch: amd64
+    jdk: '11'
+    amd64:
+      jdk8:
+        builderImage: registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7
+        runtimeImage: registry.redhat.io/jboss-eap-7/eap74-openjdk8-runtime-openshift-rhel7
+      jdk11:
+        builderImage: registry.redhat.io/jboss-eap-7/eap-xp4-openjdk11-openshift-rhel8
+        runtimeImage: registry.redhat.io/jboss-eap-7/eap-xp4-openjdk11-runtime-openshift-rhel8
+    featurePacks:
+      - 'org.jboss.eap:eap-datasources-galleon-pack:7.4.0.GA-redhat-00003'
+    galleonLayers:
+      - cloud-server
+      - postgresql-datasource
+      - ejb
+      - web-clustering
+    version: latest
+  contextDir: backend
+  uri: 'https://github.com/deewhyweb/first-responder-demo.git'
+deploy:
+  enabled: true
+  envFrom:
+    - configMapRef:
+        name: eap-config
+  route:
+    enabled: true
+    tls:
+      enabled: true
+      termination: edge
+      insecureEdgeTerminationPolicy: Redirect
+  livenessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - '-c'
+        - /opt/eap/bin/livenessProbe.sh
+    initialDelaySeconds: 60
+  readinessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - '-c'
+        - /opt/eap/bin/readinessProbe.sh
+    initialDelaySeconds: 10
+  replicas: 1

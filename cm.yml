@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: eap-config
+data: 
+  # Configuration to connnect to PostgreSQL
+  POSTGRESQL_DATABASE: frdemo
+  POSTGRESQL_DATASOURCE: FRDemoDS
+  POSTGRESQL_HOST: postgresql
+  POSTGRESQL_PASSWORD: frdemo
+  POSTGRESQL_USER: frdemo
+  POSTGRESQL_JNDI: java:/FRDemoDS
