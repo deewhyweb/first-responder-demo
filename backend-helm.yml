@@ -28,6 +28,7 @@ build:
       - ejb
       - web-clustering
       - microprofile-reactive-messaging
+      - microprofile-reactive-messaging-kafka
     version: latest
   contextDir: backend
   uri: 'https://github.com/deewhyweb/first-responder-demo.git'
