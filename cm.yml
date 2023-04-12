@@ -10,4 +10,4 @@ data:
   POSTGRESQL_PASSWORD: frdemo
   POSTGRESQL_USER: frdemo
   POSTGRESQL_JNDI: java:/FRDemoDS
-  KAFKA_SERVER: frdemo-kafka-bootstrap
+  KAFKA_SERVER: frdemo-kafka-bootstrap:9092
