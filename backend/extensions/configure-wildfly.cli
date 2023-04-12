@@ -1,6 +1,0 @@
-embed-server --admin-only=true
-batch
-/extension=org.wildfly.extension.microprofile.reactive-messaging-smallrye:add
-/extension=org.wildfly.extension.microprofile.reactive-streams-operators-smallrye:add
-/subsystem=microprofile-reactive-streams-operators-smallrye:add
-/subsystem=microprofile-reactive-messaging-smallrye:add
