@@ -76,7 +76,8 @@ Deploy AMQ streams operator
 
 Wait for the operators to to be deployed (waiting until their ClusterServiceVersion's PHASE is set to Suceeded)
 
-oc get csv -w
+```oc get csv -w```
+
 Once they are installed, it will display:
 
 ```
@@ -114,7 +115,8 @@ Deploy the JBoss EAP operator
 
 Wait for the operators to to be deployed (waiting until their ClusterServiceVersion's PHASE is set to Suceeded)
 
-oc get csv -w
+```oc get csv -w```
+
 Once they are installed, it will display:
 
 ```
