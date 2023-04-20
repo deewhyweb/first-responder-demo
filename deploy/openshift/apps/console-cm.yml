@@ -1,0 +1,21 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: console
+data: 
+  PORT: "4200"
+  INCIDENT: "http://eap-xp4:8080"
+  ALERT: "http://eap-xp4:8080"
+  RESPONDER: "http://eap-xp4:8080/responder-service"
+  MISSION: "http://eap-xp4:8080"
+  PRIORITY: "http://eap-xp4:8080/incident-priority-service"
+  DISASTER: "http://eap-xp4:8080/disaster-service"
+  DISASTER_SIMULATOR: "http://eap-xp4:8080/frdemo-backend"
+  PROCESS_VIEWER: "http://eap-xp4:8080/frdemo-backend"
+  AUTH_URL: "https://sso/auth"
+  KEYCLOAK: "false"
+  POLLING: "10000"
+  REALM: "emergency-realm"
+  CLIENTID: "js"
+  KAFKA_HOST: "frdemo-kafka-bootstrap:9092"
+  TOKEN: xcsdcsd

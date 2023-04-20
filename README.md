@@ -57,3 +57,82 @@ To run the tests, execute this command:
 ```
 mvn clean compile verify -Parq-managed 
 ```
+
+## OpenShift deployment
+
+### Backend service and dependencies
+
+Create a new project
+
+``` oc new-project erdemo ```
+
+Create postgresql database by running the following
+
+``` oc apply -f ./deploy/openshift/resources/psql.yml ```
+
+Deploy AMQ streams operator
+
+``` oc apply -f ./deploy/openshift/operators/amq-operator.yml ```
+
+Wait for the operators to to be deployed (waiting until their ClusterServiceVersion's PHASE is set to Suceeded)
+
+oc get csv -w
+Once they are installed, it will display:
+
+```
+NAME                  DISPLAY       VERSION   REPLACES              PHASE
+amqstreams.v2.3.0-3   AMQ Streams   2.3.0-3   amqstreams.v2.3.0-2   Succeeded
+
+```
+
+Create AMQ streams cluster called frdemo
+
+``` oc apply -f ./deploy/openshift/resources/amq-cluster.yml ```
+
+create config map from cm.yml
+
+``` oc apply -f ./deploy/openshift/apps/backend-cm.yml ```
+
+From the developer UI, click on "+Add", then "Helm Chart", and select the "JBoss EAP XP 4" Helm chart.
+
+Paste the contents of deploy/openshift/apps/backend-helm.yml as the config.
+
+Wait for the application image to be built
+
+```
+oc get build -w
+The application image is built when the eap74-2 build is complete:
+
+NAME                      TYPE     FROM          STATUS    STARTED         DURATION
+eap-xp4-2                   Docker   Dockerfile    Complete   About a minute ago   1m2s
+
+```
+
+Deploy the JBoss EAP operator
+
+``` oc apply -f ./deploy/openshift/operators/eap-operator.yml ```
+
+Wait for the operators to to be deployed (waiting until their ClusterServiceVersion's PHASE is set to Suceeded)
+
+oc get csv -w
+Once they are installed, it will display:
+
+```
+NAME                  DISPLAY       VERSION   REPLACES              PHASE
+eap-operator.v2.3.10  JBoss EAP    2.3.10   eap-operator.v2.3.9   Succeeded
+
+```
+
+Deploy the backend application
+
+``` oc apply -f ./deploy/openshift/apps/deploy-backend.yml ```
+
+### Console and dependencies
+
+Create config from console-cm.yml
+
+``` oc apply -f ./deploy/openshift/apps/console-cm.yml ```
+
+Deploy console with deploy-console.yml
+
+``` oc apply -f ./deploy/openshift/apps/deploy-console.yml ```

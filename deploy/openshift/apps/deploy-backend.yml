@@ -1,0 +1,27 @@
+apiVersion: wildfly.org/v1alpha1
+kind: WildFlyServer
+metadata:
+  name: eap-xp4
+spec:
+  applicationImage: eap-xp4:latest
+  replicas: 1
+  envFrom:
+    - configMapRef:
+        name: eap-config
+  env:
+    # Credentials to connect to the PostgreSQL database are taken from their secrets
+    - name: POSTGRESQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: database-user
+          name: postgresql
+    - name: POSTGRESQL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: database-password
+          name: postgresql
+    - name: POSTGRESQL_DATABASE
+      valueFrom:
+        secretKeyRef:
+          key: database-name
+          name: postgresql
